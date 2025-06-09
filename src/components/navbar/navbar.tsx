@@ -29,7 +29,6 @@ const Navbar = () => {
                   <div className={`${isCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNavAltMarkup">
                     <div className="d-flex navbar-nav me-auto mb-2 mb-lg-0">
                         <Link className="nav-link" href="/">Home</Link>
-                        <Link className="nav-link" href="/example_sub">Example board</Link>
                         <Link className="nav-link" href="/boards">Boards</Link>
                     </div>
                     <hr style={{

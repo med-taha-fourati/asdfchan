@@ -1,41 +1,41 @@
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import Board from '@/components/board_card/board';
 // import '@/components/board_card/board.css';
 
 interface BoardProps {
-    link: string,
-    description: string
+    boardId: number,
+    boardName: string,
+    boardDesc: string,
+    boardIcon: string | null,
+    boardBanner: string | null,
+    boardSubName: string,
 }
 
-const exampleBoardList: BoardProps[] = [
-    {
-        link: "/bruh",
-        description: "Necessary ye contented newspaper zealously breakfast he prevailed. Melancholy middletons yet understood decisively boy law she. Answer him easily are its barton little. Oh no though mother be things simple itself. Dashwood horrible he strictly on as. Home fine in so am good body this hope."
-    },
+// const exampleBoardList: BoardProps[] = [
+    
 
-    {
-        link: "/example_sub",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, rem accusantium tempora beatae dicta numquam. Ad, illo itaque nihil veniam sequi, magni perferendis ea dolore hic nam recusandae eos accusantium."
-    },
-
-    {
-        link: "/b",
-        description: "l"
-    },
-
-    {
-        link: "/r9k",
-        description: "foni_sub"
-    },
-
-    {
-        link: "/pinata",
-        description: "el pinata"
-    },
-
-]
+// ]
 
 const Boards = () => {
+    const [boards, setBoards] = useState<BoardProps[]>([]);
+    useEffect(() => {
+        const fetchBoards = async () => {
+            try {
+                // get the current name
+                const response = await fetch(`http://localhost:8080/api/boards`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setBoards(data);
+            } catch (error) {
+                console.error('Error fetching boards:', error);
+            }
+        };
+        fetchBoards();
+    }, []);
+
     return (
         <>
             <div className="welcome">
@@ -55,11 +55,11 @@ const Boards = () => {
                 
                 <div className='container'>
                 <div className='mt-5 row row-cols-1 row-cols-md-3 g-4'>
-                    {exampleBoardList.map((board, index) => (
+                    {boards.map((board, index) => (
 				        <Board
 				        	key={index}
-				        	link={board.link}
-                            description={board.description}
+				        	link={board.boardSubName}
+                            description={board.boardDesc}
 				        />
 			        ))}
                 </div>

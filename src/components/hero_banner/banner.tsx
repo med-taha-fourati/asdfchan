@@ -2,7 +2,14 @@ import Image from "next/image";
 import the_img from "../../../public/images/main.jpg";
 import './banner.css';
 
-const Banner = () => {
+interface BannerProps {
+    name: string | undefined,
+    description: string | undefined,
+    icon: string | null,
+    banner: string | null,
+}
+
+const Banner: React.FC<BannerProps> = ({name, description, icon, banner}) => {
     return (
         <>
             <div className="banner">
@@ -11,13 +18,13 @@ const Banner = () => {
                         <Image src={the_img} alt="board_img" className="icon-img" />
                     </div>
                     <div className="board-text" style={{
-                        color: "white"
+                        color: "white",
                     }}>
                         <div className="board-name">
-                            <h1>Example Sub</h1>
+                            <h1>{name}</h1>
                         </div>
                         <div className="board-description">
-                            <p>Example sub description</p>
+                            <p>{description}</p>
                         </div>
                     </div>
                 </div>
