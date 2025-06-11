@@ -2,18 +2,30 @@ import './card.css';
 import React from 'react';
 import Image from 'next/image'
 
+interface PostAttachement {
+	id: number,
+	fileName: string,
+	filePath: string
+}
+
 interface CardProps {
     title: string
     content: string,
     id: string,
     post_number: number
-    image: string
+    image: PostAttachement[],
+    author?: string
 };
 
-const Card: React.FC<CardProps> = ({ title, content, id, image, post_number })  => {
+const Card: React.FC<CardProps> = ({ title, content, id, image, post_number, author })  => {
+    const regexDoubleArrow = />>(\d+)/g;
+    const regexSingleArrow = />/g;
+    //const regexTripleArrow = />>>(\d+)/g;
+    
     return (
         <>
-            <div className="container text-white mb-3">
+            <section id={post_number.toString()}>
+            <div className="container text-white mb-3" id={id}>
                 <div className="card" style={{
                     borderRadius: '15px',
                     backgroundColor: '#333333',
@@ -23,19 +35,34 @@ const Card: React.FC<CardProps> = ({ title, content, id, image, post_number })  
                     <div className="card-body">
                         <h5 className="card-title"><span style={{
                             color: '#a9e5fc'
-                        }}>Anonymous</span> posted</h5>
+                        }}>{author}</span> posted</h5>
                         <p className="card-text">Id: {id} | No. : {post_number}</p>
 
                         <hr />
                         <h2 className='card-title'>{title}</h2>
-                        <p className="card-text">{content}</p>
+                        <p className="card-text">
+                            {regexDoubleArrow.test(content) ? (
+                                (<><a href={`#${content.match(regexDoubleArrow)?.[0]?.slice(2)}`} style={{
+                                    color: '#f00'
+                                }}>{">>"+content.match(regexDoubleArrow)?.[0]?.slice(2)}</a><span>{content.slice(3)}</span></>)
+                                
+                            ) : regexSingleArrow.test(content) ? (
+                                (<><p style={{
+                                    color: '#0f0'
+                                }}>{content}</p></>)
+                            ) : <p>{content}</p>}</p>
                         
-                        {(image === "") ? (<i>No attachments</i>) : (
-                            <Image className="card-img-top" src={image} alt="image" />
+                        {(image.length <= 0) ? (<i>No attachments</i>) : (
+                            image instanceof Array ? (
+                                image.map((attachment: PostAttachement, index: number) => (
+                                    <Image key={index} className="card-img-top" src={attachment.filePath} alt={attachment.fileName} width={50} height={50}/>
+                                ))
+                            ) : "Could'nt load image"
                         )}
                     </div>
                 </div>
             </div>
+            </section>
         </>
     );
 }

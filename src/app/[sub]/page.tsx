@@ -3,12 +3,26 @@ import React, { useState, useEffect } from "react";
 import Card from "../../components/card/card";
 import Banner from "@/components/hero_banner/banner"
 
+interface UserProps {
+	id: number,
+	username: string,
+	email: string
+}
+
 interface CardProps {
 	postId: number,
 	postNo: number,
 	postTitle: string,
 	postContent: string
+	postAttachements: PostAttachement[]
+	postAuthor?: UserProps | undefined | null,
 };
+
+interface PostAttachement {
+	id: number,
+	fileName: string,
+	filePath: string
+}
 
 interface BoardProps {
     boardId: number,
@@ -72,8 +86,9 @@ export default function Sub() {
 					key={index}
 					title={card.postTitle}
 					content={card.postContent}
+					author={card.postAuthor ? card.postAuthor.username : "Anonymous"}
 					id={card.postId.toString()}
-					image=""
+					image={card.postAttachements}
 					post_number={card.postNo}
 				/>
 			)) : (<p style={{
