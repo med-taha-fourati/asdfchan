@@ -1,6 +1,7 @@
 import './card.css';
-import React from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image'
+import Carousel from '../carousel/carousel';
 
 interface PostAttachement {
 	id: number,
@@ -21,9 +22,20 @@ const Card: React.FC<CardProps> = ({ title, content, id, image, post_number, aut
     const regexDoubleArrow = />>(\d+)/g;
     const regexSingleArrow = />/g;
     //const regexTripleArrow = />>>(\d+)/g;
+
+    const [closeBtn, setCloseBtn] = useState(true);
+    const [imageCarouselIndex, setImageCarouselIndex] = useState(0);
     
+    const handleClose = () => {
+        setCloseBtn(!closeBtn);
+    }
+
     return (
         <>
+        {!closeBtn ? <Carousel images={image.map((attachment: PostAttachement) => attachment.filePath)}
+                    index={imageCarouselIndex}
+                    closeBtn={closeBtn}
+                    handleClose={handleClose} /> : ""}
             <section id={post_number.toString()}>
             <div className="container text-white mb-3" id={id}>
                 <div className="card" style={{
@@ -51,14 +63,28 @@ const Card: React.FC<CardProps> = ({ title, content, id, image, post_number, aut
                                     color: '#0f0'
                                 }}>{content}</p></>)
                             ) : <p>{content}</p>}</p>
-                        
-                        {(image.length <= 0) ? (<i>No attachments</i>) : (
+                        <div className="card-img images-container">
+                        {(image.length <= 0) ? (<i style={{color: 'gray'}}>No attachments</i>) : (
                             image instanceof Array ? (
                                 image.map((attachment: PostAttachement, index: number) => (
-                                    <Image key={index} className="card-img-top" src={attachment.filePath} alt={attachment.fileName} width={50} height={50}/>
+                                    <><div className='image-item'>
+                                        <Image key={index} className="card-img-top" src={attachment.filePath} alt={attachment.fileName} width={100} height={100}
+                                            style={{
+                                                borderRadius:'15px',
+                                                marginBottom: '10px',
+                                                cursor: 'pointer',
+                                            }}
+                                            onClick={() => {
+                                                setImageCarouselIndex(index);
+                                                handleClose();
+                                            }}
+                                            loading="lazy"
+                                            />
+                                            </div>
+                                            </>
                                 ))
                             ) : "Could'nt load image"
-                        )}
+                        )}</div>
                     </div>
                 </div>
             </div>

@@ -71,6 +71,7 @@ export default function Sub() {
 		fetchCards();
 	}, []);
   return (
+		
 		<>
 			<Banner name={board?.boardName}
 					description={board?.boardDesc}
