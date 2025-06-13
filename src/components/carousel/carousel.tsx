@@ -8,6 +8,9 @@ interface CarouselProps {
     handleClose: () => void;
 }
 
+//FIXME - This component is not responsive, it needs to be fixed
+// Component does not get anchored to the full height and width of the screen, it is not responsive
+//FIXME - The images are not centered, they are not responsive, they are not anchored to the full height and width of the screen
 const Carousel: React.FC<CarouselProps> = ({images, index, closeBtn, handleClose}) => {
     const [currentIndex, setCurrentIndex] = useState(index || 0);
 
@@ -25,9 +28,9 @@ const Carousel: React.FC<CarouselProps> = ({images, index, closeBtn, handleClose
         {images.length !== 0 ? (
         <div style={{ 
             overflow: 'hidden', 
-            position: 'absolute',
-            width: '100vw',
-            height: '100vh',
+            position: 'fixed',
+            width: '100%',
+            height: '100%',
             top: 0,
             left: 0,
             zIndex: 1000,}}>
@@ -35,7 +38,7 @@ const Carousel: React.FC<CarouselProps> = ({images, index, closeBtn, handleClose
                 onClick={handleClose}
                 style={{
                     position: 'absolute',
-                    top: '100px',
+                    top: '90px',
                     right: '10px',
                     background: 'rgba(0, 0, 0, 0.5)',
                     color: 'white',
