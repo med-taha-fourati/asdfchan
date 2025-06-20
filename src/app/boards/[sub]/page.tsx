@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Card from "../../components/card/card";
+import Card from "../../../components/card/card";
 import Banner from "@/components/hero_banner/banner"
 
 interface UserProps {
@@ -40,7 +40,7 @@ export default function Sub() {
 		const fetchCards = async () => {
 			try {
 				// get the board name from the url
-				const boardName = window.location.pathname.split('/')[1];
+				const boardName = window.location.pathname.split('/')[2];
 				console.log('Fetching cards for board:', boardName);
 				let board: BoardProps;
 				try {

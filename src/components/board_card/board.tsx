@@ -18,7 +18,7 @@ const Board: React.FC<BoardProps> = ({ link, description })  => {
                 }}>
                     <div className="card-body">
                         <h5 className='card-title'>
-                            <Link href={link}>{"/"+link+"/"}</Link>
+                            <Link href={"/boards/"+link}>{"/"+link+"/"}</Link>
                         </h5>
                         <p className="card-text">{description}</p>
                     </div>
